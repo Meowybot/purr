@@ -31,7 +31,7 @@ function state.switch(towhat, ...)
     require(state.path .. towhat)
     state.current = towhat
 
-    print("successfully switched to" .. towhat)
+    print("successfully switched to " .. towhat)
 end
 
 function state.clear(clall, index)
