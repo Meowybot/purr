@@ -14,6 +14,10 @@ results level id, hp, misses, hit notes (if i can even count that)
 --state.vars
 --1 = level file name
 
-local level = require("assets.levels."..state.vars[1])
-
 --states.gameplay
+
+states.gameplay.note = {}
+states.gameplay.note.add = function() end
+states.ganeplay.notes = {}
+
+local level = require("assets.levels."..state.vars[1])
