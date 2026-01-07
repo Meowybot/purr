@@ -2,7 +2,7 @@ return {
 mdata = {
 name = "Test Level",
 id = "TEST",
-BPM = 140
+BPM = 140,
 ENDBEAT = 200
 },
 
