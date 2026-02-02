@@ -13,6 +13,7 @@ results level id, hp, misses, hit notes (if i can even count that)
 
 --state.vars
 --1 = level file name
+--2 = return after finishing
 
 --states.gameplay
 
