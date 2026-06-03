@@ -1,5 +1,7 @@
 local mwn = {}
 
--- reader/writer
+function mwn.toTable(str)
+  local t = {}
+end
 
 return mwn
