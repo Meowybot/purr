@@ -7,7 +7,7 @@ function mwn.toTable(name)
   local nestn = {}
   local nesta = #nests
   for lineu in love.filesystem.lines(name) do
-    local line = string.gsub(lineu, "^s", "")
+    local line = string.gsub(lineu, "^%s+", "")
     local firstchar = string.sub(line,1,1)
     local lastchar = string.sub(line,-1,-1)
     if not currsec then
