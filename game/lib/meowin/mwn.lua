@@ -6,7 +6,10 @@ function mwn.toTable(name)
   local nests = {}
   local nestn = {}
   local nesta = #nests
-  for line in love.filesystem.lines(name) do
+  for lineu in love.filesystem.lines(name) do
+    local line = "hello"
+    local firstchar = string.sub(line,1,1)
+    local lastchar = string.sub(line,-1,-1)
     if not currsec then
       --[[
         make the section be the name if starts w # and ends w " {"
