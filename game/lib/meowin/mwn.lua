@@ -11,12 +11,15 @@ function mwn.toTable(name)
     local firstchar = string.sub(line,1,1)
     local lastchar = string.sub(line,-1,-1)
     if not currsec then
-      --[[
-        make the section be the name if starts w # and ends w " {"
-      --]]
+      if firstchar == "#" then
+        t[line:sub(2, -3)] = t[line:sub(2, -3)] or {}
+      end
     else
       --[[
-        many things very code
+        okay so basically do:
+        if its a regular value put it as normal index
+        if its starts with * or $ do a list or numbered list
+        thats it
       --]]
     end
   end
