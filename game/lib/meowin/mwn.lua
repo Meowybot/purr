@@ -5,6 +5,7 @@ function mwn.toTable(name)
   local currlinen = 0
   local currsec = nil
   local nests = {}
+  nests[0] = "section"
   local nestn = {}
   local nesta = #nests
   for lineu in love.filesystem.lines(name) do
@@ -25,8 +26,15 @@ function mwn.toTable(name)
         else
           error("Meowin' file " .. name .. ", line " .. currlinen .. ": Did not close other " .. nesta .. " lists/arrays before closing section")
         end
-      else
-        
+      elseif firstchar == "]" then
+        if nests[nesta] == "list" then
+          nests[nesta] = nil
+          nestn[nesta] = nil
+          nesta = nesta-1
+        else
+          error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not a list")
+        end
+      elseif firstchar == ")" then
       end
       --[[
         okay so basically do:
