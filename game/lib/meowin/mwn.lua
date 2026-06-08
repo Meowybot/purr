@@ -35,6 +35,17 @@ function mwn.toTable(name)
           error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not a list")
         end
       elseif firstchar == ")" then
+        if nests[nesta] == "array" then
+          nests[nesta] = nil
+          nestn[nesta] = nil
+          nesta = nesta-1
+        else
+          error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not an array")
+        end
+      elseif firstchar == "*" then
+      elseif firstchar == "$" then
+      elseif (firstchar == "/") and (secndchar == "/") then
+      else
       end
       --[[
         okay so basically do:
