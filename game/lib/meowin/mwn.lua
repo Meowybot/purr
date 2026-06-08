@@ -1,6 +1,6 @@
 local mwn = {}
 
-function mwn.toTable(name)
+function mwn.toTable(name, retcomm)
   local t = {}
   local currlinen = 0
   local currsec = nil
@@ -46,32 +46,46 @@ function mwn.toTable(name)
           error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not an array")
         end
       elseif firstchar == "*" then
+        local current = t[currsec]
+        for _,v in ipairs(nestn) do
+          current = current[v]
+        end
+        current[middlechars] = current[middlechars] or {}
         nesta = nesta+1
         table.insert(nestn,middlechars)
         table.insert(nests,"list")
       elseif firstchar == "$" then
+        local current = t[currsec]
+        for _,v in ipairs(nestn) do
+          current = current[v]
+        end
+        current[middlechars] = current[middlechars] or {}
         nesta = nesta+1
         table.insert(nestn,middlechars)
         table.insert(nests,"array")
       elseif (firstchar == "/") and (secndchar == "/") then
         table.insert(comments, string.sub(middlechars,2,-1))
       else
-        --[[
-this is the hardest one and easiest to make so:
-if its not an array then add index value, if it is an array do value
-thats literally it bro
-        --]]
+        local current = t[currsec]
+        for _,v in ipairs(nestn) do
+          current = current[v]
+        end
+        if nests[nesta] ~= "array" then
+          local index, value = line:match("(.-) (.*)")
+          if not (index or value) then
+            error("placeholder")
+          end
+          current[index] = value
+        else
+          table.insert(current, line)
+        end
       end
-      --[[
-        okay so basically do:
-        if its a regular value put it as normal index
-        if its starts with * or $ do a list or numbered list
-        if its ] or } or ) end the current
-        if its // ignore it
-        thats it
-      --]]
     end
   end
+  if retcomm then
+    return t, comments
+  end
+  return t
 end
 
 return mwn
