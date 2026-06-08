@@ -7,6 +7,7 @@ function mwn.toTable(name)
   local nests = {}
   nests[0] = "section"
   local nestn = {}
+  nestn[0] = "A section"
   local nesta = #nests
   local comments = {}
   for lineu in love.filesystem.lines(name) do
