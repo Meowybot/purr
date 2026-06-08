@@ -8,12 +8,14 @@ function mwn.toTable(name)
   nests[0] = "section"
   local nestn = {}
   local nesta = #nests
+  local comments = {}
   for lineu in love.filesystem.lines(name) do
     currlinen = currlinen + 1
     local line = string.gsub(lineu, "^%s+", "")
     local firstchar = string.sub(line,1,1)
     local secndchar = string.sub(line,2,2)
     local lastchar = string.sub(line,-1,-1)
+    local middlechars = string.sub(line,2,-3)
     if not currsec then
       if firstchar == "#" then
         currsec = line:sub(2,-3)
@@ -43,9 +45,21 @@ function mwn.toTable(name)
           error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not an array")
         end
       elseif firstchar == "*" then
+        nesta = nesta+1
+        table.insert(nestn,middlechars)
+        table.insert(nests,"list")
       elseif firstchar == "$" then
+        nesta = nesta+1
+        table.insert(nestn,middlechars)
+        table.insert(nests,"array")
       elseif (firstchar == "/") and (secndchar == "/") then
+        table.insert(comments, string.sub(middlechars,2,-1))
       else
+        --[[
+this is the hardest one and easiest to make so:
+if its not an array then add index value, if it is an array do value
+thats literally it bro
+        --]]
       end
       --[[
         okay so basically do:
