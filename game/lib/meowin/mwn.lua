@@ -50,7 +50,7 @@ function mwn.toTable(name, retcomm)
         for _,v in ipairs(nestn) do
           current = current[v]
         end
-        current[middlechars] = current[middlechars] or {}
+        current[middlechars] = current[middlechars] or {__type = "list"}
         nesta = nesta+1
         table.insert(nestn,middlechars)
         table.insert(nests,"list")
@@ -59,7 +59,7 @@ function mwn.toTable(name, retcomm)
         for _,v in ipairs(nestn) do
           current = current[v]
         end
-        current[middlechars] = current[middlechars] or {}
+        current[middlechars] = current[middlechars] or {__type = "list"}
         nesta = nesta+1
         table.insert(nestn,middlechars)
         table.insert(nests,"array")
@@ -86,6 +86,9 @@ function mwn.toTable(name, retcomm)
     return t, comments
   end
   return t
+end
+
+function mwn.toMeowin(t)
 end
 
 return mwn
