@@ -7,9 +7,13 @@ state.path = "states."
 state.current = "SplashScreen"
 state.vars = {}
 
+function state.loadScreen()
+  love.graphics.print("Loading state")
+end
+
 function state.emptylove()
     print("emptying love2d callbacks")
-    love.draw = function() end
+    love.draw = state.loadScreen
     love.quit = function() end
     love.update = function() end
     love.keypressed = function() end
