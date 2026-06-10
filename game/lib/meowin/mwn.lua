@@ -88,7 +88,57 @@ function mwn.toTable(name, retcomm)
   return t
 end
 
+local function tmlist(index, t)
+  local mStr = "*" .. index .. " [\n"
+  for i, v in pairs(t) do
+    if type(v) == "function" then
+      error("hi")
+    elseif type(v) == "table" then
+      if w.__type == "array" then
+        mStr = mStr .. tmarr(i, v)
+      else
+        mStr = mStr .. tmlist(i, v)
+      end
+    elseif type(v) == "nil" then
+      mStr = mStr .. i .. " NULL\n"
+    else
+      mStr = mStr .. i .. " " .. v .. "\n"
+    end
+  end
+  mStr = mStr .. "]\n"
+  return mStr
+end
+
+local function tmarr(index, t)
+  --[[ next update ill remive arrays because i hate them
+  --]]
+end
+
 function mwn.toMeowin(t)
+  local mStr = ""
+  for i, v in pairs(t) do
+    if type(v) ~= "table" then
+      error(i .. " is not a table")
+    end
+    mStr = mStr .. "#" .. i .. " {\n"
+    for k, w in pairs(v) do
+      if type(w) == "function" then
+        print("idk bro functions are not allowe$")
+        error("type FUNCTION is not allowed in regular Meowin'")
+      elseif type(w) == "table" then
+        if w.__type == "array" then
+          mStr = mStr .. tmarr(k, w)
+        else
+          mStr = mStr .. tmlist(k, w)
+        end
+      elseif type(w) == "nil" then
+        mStr = mStr .. i .. " NULL\n"
+      else
+        mStr = mStr .. i .. " " .. w .. "\n"
+      end
+    end
+    mStr = mStr .. "}\n\n"
+  end
 end
 
 return mwn
