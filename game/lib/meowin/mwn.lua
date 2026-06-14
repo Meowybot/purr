@@ -110,7 +110,8 @@ local function tmlist(index, t)
 end
 
 local function tmarr(index, t)
-  --[[ next update ill remive arrays because i hate them
+  --[[
+  on second thought i wont delete em but i will make some changes
   --]]
 end
 
