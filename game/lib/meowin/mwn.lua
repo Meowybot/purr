@@ -37,14 +37,6 @@ function mwn.toTable(name, retcomm)
         else
           error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not a list")
         end
-      elseif firstchar == ")" then
-        if nests[nesta] == "array" then
-          nests[nesta] = nil
-          nestn[nesta] = nil
-          nesta = nesta-1
-        else
-          error("Meowin' file " .. name .. ", line " .. currlinen .. ": " .. nestn[nesta] .. "is not an array")
-        end
       elseif firstchar == "*" then
         local current = t[currsec]
         for _,v in ipairs(nestn) do
@@ -54,15 +46,6 @@ function mwn.toTable(name, retcomm)
         nesta = nesta+1
         table.insert(nestn,middlechars)
         table.insert(nests,"list")
-      elseif firstchar == "$" then
-        local current = t[currsec]
-        for _,v in ipairs(nestn) do
-          current = current[v]
-        end
-        current[middlechars] = current[middlechars] or {__type = "list"}
-        nesta = nesta+1
-        table.insert(nestn,middlechars)
-        table.insert(nests,"array")
       elseif (firstchar == "/") and (secndchar == "/") then
         table.insert(comments, string.sub(middlechars,2,-1))
       else
@@ -70,15 +53,12 @@ function mwn.toTable(name, retcomm)
         for _,v in ipairs(nestn) do
           current = current[v]
         end
-        if nests[nesta] ~= "array" then
-          local index, value = line:match("(.-) (.*)")
-          if not (index or value) then
-            error("placeholder")
-          end
-          current[index] = value
-        else
-          table.insert(current, line)
+        local index, value = line:match("(.-) (.*)")
+        if not (index or value) then
+          error("placeholder")
         end
+        current[index] = value
+        table.insert(current, line)
       end
     end
   end
@@ -94,11 +74,7 @@ local function tmlist(index, t)
     if type(v) == "function" then
       error("hi")
     elseif type(v) == "table" then
-      if w.__type == "array" then
-        mStr = mStr .. tmarr(i, v)
-      else
-        mStr = mStr .. tmlist(i, v)
-      end
+      mStr = mStr .. tmlist(i, v)
     elseif type(v) == "nil" then
       mStr = mStr .. i .. " NULL\n"
     else
@@ -107,12 +83,6 @@ local function tmlist(index, t)
   end
   mStr = mStr .. "]\n"
   return mStr
-end
-
-local function tmarr(index, t)
-  --[[
-  on second thought i wont delete em but i will make some changes
-  --]]
 end
 
 function mwn.toMeowin(t)
@@ -127,11 +97,7 @@ function mwn.toMeowin(t)
         print("idk bro functions are not allowe$")
         error("type FUNCTION is not allowed in regular Meowin'")
       elseif type(w) == "table" then
-        if w.__type == "array" then
-          mStr = mStr .. tmarr(k, w)
-        else
           mStr = mStr .. tmlist(k, w)
-        end
       elseif type(w) == "nil" then
         mStr = mStr .. i .. " NULL\n"
       else
