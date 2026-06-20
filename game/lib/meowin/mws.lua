@@ -1,4 +1,4 @@
-local mwn = require(lib.meowin.mwn)
+local mwn = require("lib.meowin.mwn")
 
 local mws = {}
 
