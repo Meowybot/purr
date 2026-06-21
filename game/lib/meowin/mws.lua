@@ -2,6 +2,13 @@ local mwn = require("lib.meowin.mwn")
 
 local mws = {}
 
+mws.DefFunTrans = {
+  ["print"] = "print"
+}
+
+mws.DefCBTrans = {
+}
+
 function mws.toLua(name, funcTrans, udft, cbTrans, udct)
   local luas = "local mwztr = {}\n"
   local luend = "return mwztr\n"
