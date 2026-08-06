@@ -53,7 +53,7 @@ function state.switch(newstate, ...)
   state.cb = {}
   local new = require(newstate)
   if type(new) == "table" then
-    for i, v in new do
+    for i, v in pairs(new) do
       if type(v) == "function" then
         state.cb[i] = v
       end
@@ -70,8 +70,8 @@ function state.switch(newstate, ...)
   love.draw = cb.draw or function() end
   love.keypressed = cb.keypressed or function() end
   love.keyreleased = cb.keyreleased or function() end
-  --[[ continue the other ones later
-  --]]
+  love.mousepressed = cb.mousepressed or function() end
+  love.mousereleased = cb.mousereleased or function() end
 end
 
 function state.getvars(i)
